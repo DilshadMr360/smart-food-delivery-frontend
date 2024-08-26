@@ -7,12 +7,11 @@ const Footer = () => {
     <div className="footer" id="footer">
       <div className="footer-content">
         <div className="footer-content-left">
-          <img src={assets.logo} alt="" />
+          <img src={assets.logo3} alt="" />
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo
-            fugit eius molestias, impedit provident voluptate officiis tempora
-            odit, unde, ut dolor? Recusandae iusto laudantium magnam illo
-            repudiandae dolore, quo itaque?
+          Discover a variety of mouthwatering dishes from our carefully curated menu. Whether you're in the mood for a hearty meal or a light snack,
+           our diverse selection is designed to satisfy every craving. Explore our offerings and 
+           enjoy delicious food delivered right to your door.
           </p>
           <div className="footer-social-icons">
             <img src={assets.facebook_icon} alt="" />
@@ -41,7 +40,7 @@ const Footer = () => {
       </div>
       <hr />
       <p className="footer-copyright">
-        Copyright 2023 @Tomato.com All right Reserved
+        Copyright 2023 @SmartFood.com All right Reserved
       </p>
     </div>
   );
