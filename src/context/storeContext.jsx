@@ -9,7 +9,7 @@ const StoreContextProvider = (props) => {
   const url  = "http://localhost:4000"
   const [token, setToken] = useState("");
   const [food_list, setFoodList] = useState([]);
-
+  const [menu_list, setMenuList] = useState([]);
 
   //add to cart
 
@@ -54,6 +54,38 @@ const StoreContextProvider = (props) => {
     setFoodList(response.data.data)
   }
 
+  //fetch menu list 
+  const fetchMenuList = async () => {
+    try {
+      const response = await axios.get(url + "/api/food/list");
+      const foods = response.data.data;
+  
+      // Extract unique categories and their corresponding images
+      const uniqueCategories = [];
+      const categorySet = new Set();
+  
+      foods.forEach(food => {
+        if (!categorySet.has(food.category)) {
+          categorySet.add(food.category);
+          uniqueCategories.push({
+            menu_name: food.category,
+            menu_image: `${url}/images/${food.image}`
+          });
+        }
+      });
+  
+      setMenuList(uniqueCategories);
+  
+      // Log the menu_list after setting it
+      console.log("Menu List:", uniqueCategories);
+  
+    } catch (error) {
+      console.error("Error fetching menu list:", error);
+    }
+  };
+  
+
+  
   const loadCartData = async(token)=>{
     const response = await axios.post(url+"/api/cart/get", {}, {headers:{token}});
     setCartItems(response.data.cartData);
@@ -64,7 +96,8 @@ const StoreContextProvider = (props) => {
 
   useEffect(()=>{
   async function loadData(){
-    await fetchFoodList()
+    await fetchMenuList()
+    await fetchFoodList();
     if (localStorage.getItem("token")) {
       setToken(localStorage.getItem("token"));
       await loadCartData(localStorage.getItem("token"));
@@ -82,7 +115,8 @@ const StoreContextProvider = (props) => {
     getTotalCartAmount,
     url,
     token,
-    setToken
+    setToken,
+    menu_list
   };
   return (
     <StoreContext.Provider value={contextValue}>
