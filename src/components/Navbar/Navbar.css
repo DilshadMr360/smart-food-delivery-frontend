@@ -95,6 +95,12 @@
     color: tomato;
   }
 
+  .navbar-right .user-text{
+    font-size: 16px;
+    color: #49557e;
+
+  }
+
 
 @media (max-width: 1050px) {
   .navbar .logo {
