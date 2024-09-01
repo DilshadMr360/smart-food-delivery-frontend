@@ -10,6 +10,8 @@ const StoreContextProvider = (props) => {
   const [token, setToken] = useState("");
   const [food_list, setFoodList] = useState([]);
   const [menu_list, setMenuList] = useState([]);
+  const [user, setUser] = useState("");
+
 
   //add to cart
 
@@ -116,7 +118,9 @@ const StoreContextProvider = (props) => {
     url,
     token,
     setToken,
-    menu_list
+    menu_list,
+    user,
+    setUser
   };
   return (
     <StoreContext.Provider value={contextValue}>
