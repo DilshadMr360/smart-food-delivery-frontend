@@ -3,6 +3,8 @@ import './LoginPopup.css'
 import { assets } from '../../assets/frontend_assets/assets';
 import { StoreContext } from '../../context/storeContext';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+
 
 const LoginPopup = ({setShowLogin}) => {
 
@@ -22,35 +24,48 @@ const LoginPopup = ({setShowLogin}) => {
     }
 
 
-    const onLogin =async (event)=>{
+    const onLogin = async (event) => {
         event.preventDefault();
-
-
+      
         let newUrl = url;
-        if (currentstate==='Login') {
-            newUrl += "/api/user/login"
+        if (currentstate === 'Login') {
+          newUrl += "/api/user/login";
+        } else {
+          newUrl += "/api/user/register";
         }
-        else {
-            newUrl += "/api/user/register"
+      
+        try {
+          const response = await axios.post(newUrl, data);
+      
+          if (response.data.success) {
+            if (currentstate === 'Login') {
+              setToken(response.data.token);
+              localStorage.setItem("token", response.data.token);
+                
+              const userName = response.data.user?.name || "User"; // Fallback to "User" if name is not available
+              setUser(userName);
+      
+              console.log("Name:", userName);
+              console.log("Email:", data.email);
+      
+              setShowLogin(false); // Close the popup after successful login
+              toast.success(response.data.message);
+
+            } else {
+              // Registration was successful
+              toast.success(response.data.message);
+              setCurrentState('Login'); // Switch to the login form
+              setData({ name: "", email: "", password: "" }); // Optionally clear the input fields
+            }
+          } else {
+            alert(response.data.message);
+          }
+        } catch (error) {
+          console.error("There was an error!", error);
+          alert("Something went wrong. Please try again.");
         }
-
-        const response = await axios.post(newUrl,data);
-         if (response.data.success) {
-                setToken(response.data.token);
-                localStorage.setItem("token", response.data.token);
-
-                const userName = response.data.user?.name || "User"; // Fallback to "User" if name is not available
-                setUser(userName);
-
-                console.log("Name:", userName);
-                console.log("Email:", data.email);
-    
-                setShowLogin(false)
-         }
-         else{
-            alert(response.data.message)
-         }
-    }
+      };
+      
 
 //     useEffect(()=>{
 // console.log(data);
