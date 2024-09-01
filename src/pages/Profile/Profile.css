@@ -1,0 +1,150 @@
+/* Center the container vertically and horizontally */
+.profile-container {
+    max-width: 100%; /* Take full width */
+    margin: 0 auto; /* Center horizontally */
+    margin-top: 120px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Flexbox layout for form sections */
+.profile-form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Flex container for content sections */
+.profile-content {
+    display: flex;
+    justify-content: space-between; /* Space between left and right sections */
+    gap: 20px; /* Space between left and right sections */
+    margin-bottom: 20px; /* Space between content and actions */
+}
+
+/* Left side: Image and username */
+.profile-left {
+    display: flex;
+    flex-direction: column;
+    width: 50%; /* Half width for left section */
+}
+
+/* Image upload section */
+.profile-image-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.image-label {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+}
+
+.profile-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+}
+
+.upload-text {
+    display: block;
+    margin-top: 10px;
+    color: #7d4cdb;
+    font-size: 14px;
+}
+
+/* Username input section */
+.profile-input-section {
+    margin-bottom: 20px;
+}
+
+.profile-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.profile-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Right side: Password section */
+.profile-right {
+    margin-top: -20px;
+    width: 50%; /* Half width for right section */
+}
+
+/* Password section styling */
+.profile-password-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.password-title {
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Adjust spacing for password fields */
+.profile-password-section .profile-input-section {
+    margin-bottom: 20px; /* Space between password fields */
+}
+
+/* Adjust spacing for actions */
+.profile-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px; /* Space between form and action buttons */
+}
+
+/* Buttons styling */
+.cancel-btn,
+.save-btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cancel-btn {
+    background-color: #ccc;
+    border: none;
+    color: #fff;
+}
+
+.save-btn {
+    background-color: black;
+    border: none;
+    color: #fff;
+}
+
+.save-btn:hover,
+.cancel-btn:hover {
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .profile-content {
+        flex-direction: column; /* Stack left and right sections vertically on smaller screens */
+        gap: 0; /* Remove gap between sections on smaller screens */
+    }
+    .profile-left,
+    .profile-right {
+        width: 100%; /* Full width for sections on smaller screens */
+        margin-right: 0; /* Remove margin on smaller screens */
+    }
+    .profile-actions {
+        justify-content: center; /* Center actions on smaller screens */
+    }
+}
