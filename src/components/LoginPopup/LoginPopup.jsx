@@ -44,7 +44,7 @@ const LoginPopup = ({setShowLogin}) => {
                 
               const userName = response.data.user?.name || "User"; // Fallback to "User" if name is not available
               setUser(userName);
-      
+              localStorage.setItem("userName", userName);
               console.log("Name:", userName);
               console.log("Email:", data.email);
       
