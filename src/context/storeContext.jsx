@@ -11,30 +11,39 @@ const StoreContextProvider = (props) => {
   const [food_list, setFoodList] = useState([]);
   const [menu_list, setMenuList] = useState([]);
   const [user, setUser] = useState("");
+  const [userProfileDetails, setUserProfileDetails] = useState(() => {
+    const savedProfile = localStorage.getItem("userProfileDetails");
+    return savedProfile ? JSON.parse(savedProfile) : {};
+  });
 
 
   //add to cart
 
   const addToCart = async (itemId) => {
+    console.log("Adding item to cart:", itemId); // Add this line
+    if (!itemId) return; // Exit if itemId is undefined
     if (!cartItems[itemId]) {
-      setCartItems((prev) =>({...prev,[itemId]:1}));
+      setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
     } else {
-      setCartItems((prev) =>({...prev,[itemId]: prev[itemId]+1}));
+      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
     }
     if (token) {
-      await axios.post(url+"/api/cart/add", {itemId}, {headers:{token}})
+      await axios.post(url + "/api/cart/add", { itemId }, { headers: { token } });
     }
   };
+  
 
 
  //remove to cart
-  const removeFromCart = async (itemId) => {
-    setCartItems((prev) =>({...prev,[itemId]: prev[itemId]- 1}));
-    if (token) {
-      await axios.post(url+"/api/cart/remove",{itemId}, {headers:{token}})
-      
-    }
-  };
+ const removeFromCart = async (itemId) => {
+  console.log("Removing item from cart:", itemId); // Add this line
+  if (!itemId) return; // Exit if itemId is undefined
+  setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+  if (token) {
+    await axios.post(url + "/api/cart/remove", { itemId }, { headers: { token } });
+  }
+};
+
   
  //get from cart
 
@@ -42,20 +51,32 @@ const StoreContextProvider = (props) => {
     let totalAmount = 0;
     for(const item in cartItems)
     {
-      if(cartItems[item]>0){
-              let itemInfo = food_list.find((product)=>product._id === item);
-      totalAmount += itemInfo.price* cartItems[item];
+      if(cartItems[item]>0)
+      {
+      //         let itemInfo = food_list.find((product)=>product._id === item);
+      // totalAmount += itemInfo.price* cartItems[item];
+      const itemInfo = food_list.find((product) => product._id === item);
+      if (itemInfo) {
+        totalAmount += itemInfo.price * cartItems[item];
+      } else {
+        console.warn(`Item with id ${item} not found in food_list.`);
+      }
       }
 
     }
     return totalAmount;
   }
 
-  const fetchFoodList = async ()=>{
-    const response = await axios.get(url+"/api/food/list")
-    setFoodList(response.data.data)
-  }
-
+  const fetchFoodList = async () => {
+    try {
+      const response = await axios.get(url + "/api/food/list");
+      setFoodList(response.data.data);
+      console.log("Food List:", response.data.data); // Add here
+    } catch (error) {
+      console.error("Error fetching food list:", error);
+    }
+  };
+  
   //fetch menu list 
   const fetchMenuList = async () => {
     try {
@@ -88,12 +109,18 @@ const StoreContextProvider = (props) => {
   
 
   
-  const loadCartData = async(token)=>{
-    const response = await axios.post(url+"/api/cart/get", {}, {headers:{token}});
-    setCartItems(response.data.cartData);
-    // console.log("Helloo", response.data.cartData);
+  const loadCartData = async (token) => {
+    try {
+      const response = await axios.post(url + "/api/cart/get", {}, { headers: { token } });
+      setCartItems(response.data.cartData);
+      console.log("Cart Items:", response.data.cartData); // Add here
+    } catch (error) {
+      console.error("Error loading cart data:", error);
+    }
+  };
+  
 
-  }
+
 
 
   useEffect(()=>{
@@ -103,10 +130,11 @@ const StoreContextProvider = (props) => {
     if (localStorage.getItem("token")) {
       setToken(localStorage.getItem("token"));
       await loadCartData(localStorage.getItem("token"));
+      localStorage.setItem("userProfileDetails", JSON.stringify(userProfileDetails));
    }
   }
   loadData();
-  }, [])
+  }, [userProfileDetails])
 
   const contextValue = {
     food_list,
@@ -120,7 +148,9 @@ const StoreContextProvider = (props) => {
     setToken,
     menu_list,
     user,
-    setUser
+    setUser,
+    userProfileDetails,
+    setUserProfileDetails
   };
   return (
     <StoreContext.Provider value={contextValue}>
