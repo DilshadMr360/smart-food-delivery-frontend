@@ -66,8 +66,14 @@ margin-bottom: 10px;
         padding: 6px;
         border-radius: 50px;
         background-color: white;
+
     }
 
     .food-item-counter img{
         width: 30px;
     }
+
+    .available-soon {
+        color: red; /* You can adjust the color or styling as needed */
+        font-weight: bold;
+      }
