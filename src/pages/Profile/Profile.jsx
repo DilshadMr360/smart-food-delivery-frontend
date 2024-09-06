@@ -64,6 +64,7 @@ const Profile = () => {
 
     if (response.data.success) {
       // Update the state and local storage
+      console.log(response.data.user);
       setUserProfileDetails(response.data.user);
       localStorage.setItem("userProfileDetails", JSON.stringify(response.data.user));
 
@@ -85,7 +86,6 @@ const Profile = () => {
   }
 };
 
-
   return (
     <div className="profile-container">
       <div className="profile-form">
@@ -97,8 +97,10 @@ const Profile = () => {
           <div className="profile-left">
             <div className="profile-image-section">
               <label htmlFor="image" className="image-label">
+                
                 <img
-                  src={image ? URL.createObjectURL(image) : assets.user_default}
+                // src={image ? URL.createObjectURL(image) : assets.user_default}
+                  src={image ? URL.createObjectURL(image) : (userProfileDetails.profileImage ? `http://localhost:4000/profiles/${userProfileDetails.profileImage}` : assets.user_default)}
                   alt="Profile"
                   className="profile-image"
                 />
