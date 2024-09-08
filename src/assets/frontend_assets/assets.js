@@ -62,8 +62,16 @@ import parcel_icon from './parcel_icon.png'
 import logo2 from './logo-2.png'
 import logo3 from './logo-3.png'
 import user_default  from './userdefaultpng.png'
+import about_us  from './about_us.jpg'
+import about_us_2  from './about_us_2.png'
+import about_us_3  from './about_us_3.jpeg'
+import about_us_4  from './about_us_4.png'
 
 export const assets = {
+    about_us,
+    about_us_2,
+    about_us_3,
+    about_us_4,
     logo,
     logo2,
     logo3,

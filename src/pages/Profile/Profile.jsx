@@ -4,6 +4,7 @@ import { assets } from '../../assets/frontend_assets/assets';
 import { useContext } from "react";
 import { StoreContext } from "../../context/storeContext";
 import axios from 'axios';
+import BillingAddress from '../BillingAddress/BillingAddress';
 
 const Profile = () => {
   const { userProfileDetails, setUserProfileDetails, token, url } = useContext(StoreContext);
@@ -87,6 +88,8 @@ const Profile = () => {
 };
 
   return (
+    <div>
+           {/* //profile  */}
     <div className="profile-container">
       <div className="profile-form">
         <div className="profile-header">
@@ -170,6 +173,13 @@ const Profile = () => {
         </form>
       </div>
     </div>
+
+
+    {/* //billing */}
+    <BillingAddress/>
+
+    </div>
+
   );
 };
 
