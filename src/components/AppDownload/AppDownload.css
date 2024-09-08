@@ -1,25 +1,61 @@
-.app-download {
-  margin: auto auto;
-  margin-top: 100px;
-  font-size: max(3vw, 20px);
-  text-align: center;
-  font-weight: 500;
-}
-
-.app-download-platforms {
+.app-container {
   display: flex;
-  justify-content: center;
-  gap: max(2vw, 10px);
-  margin-top: 40px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px; 
+  max-width: 1200px;
+  margin: auto;
+  gap: 20px; 
 }
 
-.app-download-platforms img {
-  width: max(30vw, 120px);
-  max-width: 180px;
-  transition: 0.5s;
-  cursor: pointer;
+.app-content {
+  max-width: 50%; /* Adjust text width */
+  text-align: left;
 }
 
-.app-download-platforms img:hover{
-    transform: scale(1.05);
+h1 {
+  color: red;
+}
+
+h2 {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+p {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+.app-image {
+  display: flex;
+  justify-content: flex-end; /* Align image to the right */
+  flex-grow: 1;
+}
+
+.app-image img {
+  max-width:100%; /* Keep the image within its container */
+  height: auto;
+  border-radius: 10px;
+  transition: transform 0.6s ease-in-out;
+}
+
+.app-image img:hover {
+  transform: scale(1.1); /* Slight zoom effect when hovering */
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .app-content, .app-image {
+    max-width: 100%;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+  }
 }
