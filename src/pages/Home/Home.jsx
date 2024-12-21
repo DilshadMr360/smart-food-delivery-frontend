@@ -1,19 +1,24 @@
-import React, { useState } from "react";
-import "./Home.css";
-import Header from "../../components/Header/Header";
-import ExploreMenu from "../../components/ExploreMenu/ExploreMenu";
-import FoodDisplay from "../../components/FoodDisplay/FoodDisplay";
-import AppDownload from "../../components/AppDownload/AppDownload";
+import React, { useState, Suspense, useMemo } from "react";
+// Lazy loading the components
+const Header = React.lazy(() => import("../../components/Header/Header"));
+const ExploreMenu = React.lazy(() => import("../../components/ExploreMenu/ExploreMenu"));
+const FoodDisplay = React.lazy(() => import("../../components/FoodDisplay/FoodDisplay"));
+const AppDownload = React.lazy(() => import("../../components/AppDownload/AppDownload"));
 
 const Home = () => {
-
   const [category, setCategory] = useState("All");
+
+  // Using useMemo to memoize the category
+  const memoizedCategory = useMemo(() => category, [category]);
+
   return (
     <div>
-      <Header />
-      <ExploreMenu category={category} setCategory={setCategory}/>
-      <FoodDisplay category={category}/>
-      <AppDownload/>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Header />
+        <ExploreMenu category={memoizedCategory} setCategory={setCategory} />
+        <FoodDisplay category={memoizedCategory} />
+        <AppDownload />
+      </Suspense>
     </div>
   );
 };

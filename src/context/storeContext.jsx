@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useMemo, useState } from "react";
 // import { food_list } from "../assets/frontend_assets/assets";
 import axios from "axios";
 
@@ -19,7 +19,7 @@ const StoreContextProvider = (props) => {
 
   //add to cart
 
-  const addToCart = async (itemId) => {
+  const addToCart =  useCallback (async (itemId) => {
     console.log("Adding item to cart:", itemId); // Add this line
     if (!itemId) return; // Exit if itemId is undefined
     if (!cartItems[itemId]) {
@@ -30,31 +30,29 @@ const StoreContextProvider = (props) => {
     if (token) {
       await axios.post(url + "/api/cart/add", { itemId }, { headers: { token } });
     }
-  };
+  }, [token]);
   
 
 
  //remove to cart
- const removeFromCart = async (itemId) => {
+ const removeFromCart = useCallback (async (itemId) => {
   console.log("Removing item from cart:", itemId); // Add this line
   if (!itemId) return; // Exit if itemId is undefined
   setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
   if (token) {
     await axios.post(url + "/api/cart/remove", { itemId }, { headers: { token } });
   }
-};
+}, [token]);
 
   
  //get from cart
 
-  const getTotalCartAmount = ()=> {
+  const getTotalCartAmount = useCallback (()=> {
     let totalAmount = 0;
     for(const item in cartItems)
     {
       if(cartItems[item]>0)
       {
-      //         let itemInfo = food_list.find((product)=>product._id === item);
-      // totalAmount += itemInfo.price* cartItems[item];
       const itemInfo = food_list.find((product) => product._id === item);
       if (itemInfo) {
         totalAmount += itemInfo.price * cartItems[item];
@@ -65,7 +63,7 @@ const StoreContextProvider = (props) => {
 
     }
     return totalAmount;
-  }
+  }, [cartItems, food_list])
 
   const fetchFoodList = async () => {
     try {

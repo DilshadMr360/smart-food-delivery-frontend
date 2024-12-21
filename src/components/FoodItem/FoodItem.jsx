@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import "./FoodItem.css";
 import { assets } from "../../assets/frontend_assets/assets.js";
 import { StoreContext } from "../../context/storeContext";
 
-const FoodItem = ({ id, name, price, quantity, description, image }) => {
+const FoodItem = React.memo (({ id, name, price, quantity, description, image }) => {
   const { cartItems, addToCart, removeFromCart, url } = useContext(StoreContext);
   const [stockMessage, setStockMessage] = useState("");
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = useCallback (async () => {
     // Check if item can be added
     if (!cartItems[id] || cartItems[id] < quantity) {
       await addToCart(id);
@@ -15,18 +15,18 @@ const FoodItem = ({ id, name, price, quantity, description, image }) => {
     } else {
       setStockMessage("Oops! Stock is finished!");
     }
-  };
+  }, [cartItems, id, quantity, addToCart]);
 
-  const handleRemoveFromCart = async () => {
+  const handleRemoveFromCart = useCallback (async () => {
     await removeFromCart(id);
     // Clear stock message when item quantity is reduced
     setStockMessage("");
-  };
+  }, [id, removeFromCart]);
 
   return (
     <div className="food-item">
       <div className="food-item-img-container">
-        <img className="food-item-image" src={url + "/images/" + image} alt={name} />
+        <img className="food-item-image" src={url + "/images/" + image} alt={name} loading="lazy" />
         {quantity > 0 ? (
           !cartItems[id] ? (
             <img className="add" onClick={handleAddToCart} src={assets.add_icon_white} alt="Add to cart" />
@@ -53,6 +53,6 @@ const FoodItem = ({ id, name, price, quantity, description, image }) => {
       </div>
     </div>
   );
-};
+});
 
 export default FoodItem;
