@@ -10,10 +10,10 @@ import { FaUser } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
 import { GiShoppingBag } from "react-icons/gi";
 import { RiLogoutBoxRFill } from "react-icons/ri";
-import "../../App.css"
+import "../../App.css";
 const Navbar = ({ setShowLogin }) => {
   const [menu, setMenu] = useState("home");
-  const { getTotalCartAmount, token, setToken, user, setUser  } =
+  const { getTotalCartAmount, token, setToken, user, setUser } =
     useContext(StoreContext);
 
   const navigate = useNavigate();
@@ -42,13 +42,13 @@ const Navbar = ({ setShowLogin }) => {
           <img src={assets.logo2} alt="" className="logo" />
         </Link>
         <ul className="navbar-menu">
-          <Link
-            to="/"
+          <a
+            href="#home"
             onClick={() => setMenu("home")}
             className={menu === "home" ? "active" : ""}
           >
             home
-          </Link>
+          </a>
           <a
             href="#explore-menu"
             onClick={() => setMenu("menu")}
