@@ -4,8 +4,8 @@ import { assets } from '../../assets/frontend_assets/assets';
 
 const AppDownload = () => {
   return (
-    <div className='app-container'>
-      <div className='app-content'>
+    <div id='about-us' className='app-container'>
+      <div className='app-content '>
       <h2>About</h2>
         <h1>Smart Food</h1>
         <p>
